@@ -68,6 +68,53 @@ border-radius:10px;
 
 <script>
 
+let provider;
+let signer;
+let userAddress;
+
+async function connect(){
+if (typeof window.ethereum !== 'undefined') {
+provider = new ethers.providers.Web3Provider(window.ethereum);
+await provider.send("eth_requestAccounts", []);
+signer = provider.getSigner();
+userAddress = await signer.getAddress();
+
+document.getElementById("wallet").innerText = userAddress;
+
+getBalance();
+} else {
+alert("Install MetaMask");
+}
+}
+
+async function getBalance(){
+const balance = await provider.getBalance(userAddress);
+const eth = ethers.utils.formatEther(balance);
+document.getElementById("wallet").innerText = userAddress + " | " + parseFloat(eth).toFixed(4) + " ETH";
+}
+
+function buy(){
+alert("Real trading not enabled yet");
+}
+
+function sell(){
+alert("Real trading not enabled yet");
+}
+
+let profit = 0;
+
+function startBot(){
+document.getElementById("status").innerText = "Running...";
+
+setInterval(()=>{
+let change = (Math.random()*3).toFixed(2);
+profit = (parseFloat(profit) + parseFloat(change)).toFixed(2);
+document.getElementById("profit").innerText = profit + "%";
+},2000);
+}
+
+</script>
+
 let profit = 0;
 
 function connect(){
